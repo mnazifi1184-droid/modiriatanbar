@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <title>ورود | مدیریت انبار</title>
+  <?!= include('Styles'); ?>
+</head>
+<body>
+<div class="page">
+  <div class="card">
+    <h2>ورود به سیستم مدیریت انبار</h2>
+    <p style="color:var(--muted)">برای ادامه وارد حساب کاربری خود شوید.</p>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">نام کاربری</label>
+        <input id="username" autocomplete="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">رمز عبور</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+      </div>
+
+      <button class="btn" type="submit">ورود</button>
+      <button class="btn btn-secondary" type="button" onclick="APP.go('Signup')">ثبت‌نام</button>
+      <div id="message" class="message"></div>
+    </form>
+  </div>
+</div>
+
+<?!= include('Common'); ?>
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  google.script.run
+    .withSuccessHandler(result => {
+      if (!result.success) {
+        APP.showMessage('message', result.message, 'error');
+        return;
+      }
+      APP.setSession(result);
+      APP.go('Dashboard');
+    })
+    .withFailureHandler(error => APP.showMessage('message', error.message, 'error'))
+    .signIn(username, password);
+});
+</script>
+</body>
+</html>
