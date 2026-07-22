@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <title>داشبورد | مدیریت انبار</title>
+  <?!= include('Styles'); ?>
+</head>
+<body>
+<header class="topbar">
+  <strong>مدیریت انبار</strong>
+  <div>
+    <span id="userLabel"></span>
+    <button class="btn btn-secondary" onclick="logout()">خروج</button>
+  </div>
+</header>
+
+<main class="dashboard">
+  <h1>داشبورد</h1>
+  <div class="metrics">
+    <div class="metric"><div>کاربر</div><div class="metric-value" id="userRole">-</div></div>
+    <div class="metric"><div>تعداد رکوردها</div><div class="metric-value" id="totalRecords">0</div></div>
+  </div>
+
+  <div style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap">
+    <button class="btn" onclick="APP.go('Upload')">آپلود Excel</button>
+    <button class="btn" onclick="APP.go('View')">مشاهده داده‌ها</button>
+    <button class="btn" onclick="APP.go('Merge')">ترکیب شیت‌ها</button>
+  </div>
+</main>
+
+<?!= include('Common'); ?>
+<script>
+function loadDashboard() {
+  const token = APP.getToken();
+  if (!token) return APP.go('Login');
+
+  google.script.run
+    .withSuccessHandler(data => {
+      if (!data || !data.user) {
+        APP.clearSession();
+        return APP.go('Login');
+      }
+      document.getElementById('userLabel').textContent = `${data.user.fullname} (${data.user.username})`;
+      document.getElementById('userRole').textContent = data.user.role;
+      document.getElementById('totalRecords').textContent = data.totalRecords || 0;
+    })
+    .withFailureHandler(() => {
+      APP.clearSession();
+      APP.go('Login');
+    })
+    .getDashboardData(token);
+}
+
+function logout() {
+  const token = APP.getToken();
+  google.script.run.withSuccessHandler(() => {
+    APP.clearSession();
+    APP.go('Login');
+  }).signOut(token);
+}
+
+loadDashboard();
+</script>
+</body>
+</html>
