@@ -1,0 +1,90 @@
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --text: #172033;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --danger: #dc2626;
+  --success: #16a34a;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Tahoma, Arial, sans-serif;
+  direction: rtl;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(100%, 440px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 32px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, .08);
+}
+
+h1, h2, h3 { margin-top: 0; }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 7px; font-weight: 700; }
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+
+.btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+.btn:hover { background: var(--primary-dark); }
+.btn-secondary { background: #e2e8f0; color: var(--text); }
+
+.message { margin-top: 14px; padding: 10px; border-radius: 8px; display: none; }
+.message.show { display: block; }
+.message.error { background: #fee2e2; color: var(--danger); }
+.message.success { background: #dcfce7; color: var(--success); }
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard { padding: 24px; max-width: 1200px; margin: auto; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+.metric { background: var(--surface); padding: 20px; border: 1px solid var(--border); border-radius: 14px; }
+.metric-value { font-size: 28px; font-weight: 800; margin-top: 8px; }
+
+@media (max-width: 600px) {
+  .card { padding: 22px; }
+  .topbar { padding: 12px 16px; }
+  .dashboard { padding: 16px; }
+}
+</style>
