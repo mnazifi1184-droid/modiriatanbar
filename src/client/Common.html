@@ -1,0 +1,34 @@
+<script>
+const APP = {
+  getToken() {
+    return localStorage.getItem('sessionToken') || '';
+  },
+
+  setSession(result) {
+    localStorage.setItem('sessionToken', result.token);
+    localStorage.setItem('userInfo', JSON.stringify(result.user || {}));
+  },
+
+  clearSession() {
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('userInfo');
+  },
+
+  getUser() {
+    try { return JSON.parse(localStorage.getItem('userInfo') || '{}'); }
+    catch (e) { return {}; }
+  },
+
+  showMessage(elementId, message, type = 'error') {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    el.textContent = message || '';
+    el.className = `message show ${type}`;
+  },
+
+  go(page) {
+    const base = '<?= baseUrl ?>';
+    window.top.location.href = `${base}?page=${encodeURIComponent(page)}`;
+  }
+};
+</script>
